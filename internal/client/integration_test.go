@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 package client
@@ -243,6 +244,295 @@ func TestIntegration_UserCRUD(t *testing.T) {
 		t.Errorf("expected NotFoundError after delete, got: %v", err)
 	}
 	t.Logf("User CRUD lifecycle complete")
+}
+
+func TestIntegration_NetworkCRUD(t *testing.T) {
+	c := getTestClient(t)
+	uniqueName := fmt.Sprintf("tf-test-net-%d", time.Now().UnixMilli())
+
+	// CREATE
+	created, err := c.Create("networks", map[string]interface{}{
+		"nasname": uniqueName,
+		"region":  "us-east1",
+	})
+	if err != nil {
+		t.Fatalf("create network: %v", err)
+	}
+	id, ok := created["id"].(string)
+	if !ok || id == "" {
+		t.Fatalf("expected non-empty id, got: %v", created["id"])
+	}
+	t.Logf("Created network: %s (id=%s)", uniqueName, id)
+
+	// READ
+	fetched, err := c.Read("networks", id)
+	if err != nil {
+		t.Fatalf("read network: %v", err)
+	}
+	if fmt.Sprintf("%v", fetched["nasname"]) != uniqueName {
+		t.Errorf("expected nasname=%q, got %v", uniqueName, fetched["nasname"])
+	}
+
+	// UPDATE
+	updatedName := uniqueName + "-upd"
+	updated, err := c.Update("networks", id, map[string]interface{}{
+		"nasname": updatedName,
+	})
+	if err != nil {
+		t.Fatalf("update network: %v", err)
+	}
+	if fmt.Sprintf("%v", updated["nasname"]) != updatedName {
+		t.Errorf("expected updated nasname=%q, got %v", updatedName, updated["nasname"])
+	}
+
+	// LIST
+	items, err := c.List("networks", "networks")
+	if err != nil {
+		t.Fatalf("list networks: %v", err)
+	}
+	found := false
+	for _, item := range items {
+		if fmt.Sprintf("%v", item["id"]) == id {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Errorf("created network not found in list")
+	}
+
+	// DELETE
+	err = c.Delete("networks", id)
+	if err != nil {
+		t.Fatalf("delete network: %v", err)
+	}
+
+	// Verify deleted
+	_, err = c.Read("networks", id)
+	if !IsNotFound(err) {
+		t.Errorf("expected NotFoundError after delete, got: %v", err)
+	}
+	t.Logf("Network CRUD lifecycle complete")
+}
+
+func TestIntegration_PolicyCRUD(t *testing.T) {
+	c := getTestClient(t)
+	uniqueName := fmt.Sprintf("tf-test-policy-%d", time.Now().UnixMilli())
+
+	// CREATE
+	created, err := c.Create("policies", map[string]interface{}{
+		"name":        uniqueName,
+		"description": "Terraform integration test",
+	})
+	if err != nil {
+		t.Fatalf("create policy: %v", err)
+	}
+	id, ok := created["id"].(string)
+	if !ok || id == "" {
+		t.Fatalf("expected non-empty id, got: %v", created["id"])
+	}
+	t.Logf("Created policy: %s (id=%s)", uniqueName, id)
+
+	// READ
+	fetched, err := c.Read("policies", id)
+	if err != nil {
+		t.Fatalf("read policy: %v", err)
+	}
+	if fmt.Sprintf("%v", fetched["name"]) != uniqueName {
+		t.Errorf("expected name=%q, got %v", uniqueName, fetched["name"])
+	}
+
+	// UPDATE
+	updatedName := uniqueName + "-updated"
+	updated, err := c.Update("policies", id, map[string]interface{}{
+		"name":        updatedName,
+		"description": "Updated by Terraform test",
+	})
+	if err != nil {
+		t.Fatalf("update policy: %v", err)
+	}
+	if fmt.Sprintf("%v", updated["name"]) != updatedName {
+		t.Errorf("expected updated name=%q, got %v", updatedName, updated["name"])
+	}
+
+	// DELETE
+	err = c.Delete("policies", id)
+	if err != nil {
+		t.Fatalf("delete policy: %v", err)
+	}
+
+	// Verify deleted
+	_, err = c.Read("policies", id)
+	if !IsNotFound(err) {
+		t.Errorf("expected NotFoundError after delete, got: %v", err)
+	}
+	t.Logf("Policy CRUD lifecycle complete")
+}
+
+func TestIntegration_CaptivePortalCRUD(t *testing.T) {
+	c := getTestClient(t)
+	uniqueName := fmt.Sprintf("tf-test-portal-%d", time.Now().UnixMilli())
+
+	// CREATE
+	created, err := c.Create("captive-portals", map[string]interface{}{
+		"name":        uniqueName,
+		"description": "Terraform integration test",
+	})
+	if err != nil {
+		t.Fatalf("create captive portal: %v", err)
+	}
+	id, ok := created["id"].(string)
+	if !ok || id == "" {
+		t.Fatalf("expected non-empty id, got: %v", created["id"])
+	}
+	t.Logf("Created captive portal: %s (id=%s)", uniqueName, id)
+
+	// READ
+	fetched, err := c.Read("captive-portals", id)
+	if err != nil {
+		t.Fatalf("read captive portal: %v", err)
+	}
+	if fmt.Sprintf("%v", fetched["name"]) != uniqueName {
+		t.Errorf("expected name=%q, got %v", uniqueName, fetched["name"])
+	}
+
+	// UPDATE
+	updatedName := uniqueName + "-updated"
+	updated, err := c.Update("captive-portals", id, map[string]interface{}{
+		"name":        updatedName,
+		"description": "Updated by Terraform test",
+	})
+	if err != nil {
+		t.Fatalf("update captive portal: %v", err)
+	}
+	if fmt.Sprintf("%v", updated["name"]) != updatedName {
+		t.Errorf("expected updated name=%q, got %v", updatedName, updated["name"])
+	}
+
+	// DELETE
+	err = c.Delete("captive-portals", id)
+	if err != nil {
+		t.Fatalf("delete captive portal: %v", err)
+	}
+
+	// Verify deleted
+	_, err = c.Read("captive-portals", id)
+	if !IsNotFound(err) {
+		t.Errorf("expected NotFoundError after delete, got: %v", err)
+	}
+	t.Logf("Captive portal CRUD lifecycle complete")
+}
+
+func TestIntegration_DeviceCRUD(t *testing.T) {
+	c := getTestClient(t)
+	uniqueName := fmt.Sprintf("AA:BB:CC:%02X:%02X:%02X", time.Now().UnixMilli()%256, (time.Now().UnixMilli()/256)%256, (time.Now().UnixMilli()/65536)%256)
+
+	// CREATE
+	created, err := c.Create("devices", map[string]interface{}{
+		"username": uniqueName,
+		"notes":    "Terraform integration test",
+	})
+	if err != nil {
+		t.Fatalf("create device: %v", err)
+	}
+	id, ok := created["id"].(string)
+	if !ok || id == "" {
+		t.Fatalf("expected non-empty id, got: %v", created["id"])
+	}
+	t.Logf("Created device: %s (id=%s)", uniqueName, id)
+
+	// READ
+	fetched, err := c.Read("devices", id)
+	if err != nil {
+		t.Fatalf("read device: %v", err)
+	}
+	if fmt.Sprintf("%v", fetched["username"]) != uniqueName {
+		t.Errorf("expected username=%q, got %v", uniqueName, fetched["username"])
+	}
+
+	// UPDATE
+	_, err = c.Update("devices", id, map[string]interface{}{
+		"notes": "Updated by Terraform test",
+	})
+	if err != nil {
+		t.Fatalf("update device: %v", err)
+	}
+
+	// Verify update
+	updatedDevice, err := c.Read("devices", id)
+	if err != nil {
+		t.Fatalf("re-read device: %v", err)
+	}
+	if fmt.Sprintf("%v", updatedDevice["notes"]) != "Updated by Terraform test" {
+		t.Errorf("expected notes='Updated by Terraform test', got %v", updatedDevice["notes"])
+	}
+
+	// DELETE
+	err = c.Delete("devices", id)
+	if err != nil {
+		t.Fatalf("delete device: %v", err)
+	}
+
+	// Verify deleted
+	_, err = c.Read("devices", id)
+	if !IsNotFound(err) {
+		t.Errorf("expected NotFoundError after delete, got: %v", err)
+	}
+	t.Logf("Device CRUD lifecycle complete")
+}
+
+func TestIntegration_VoucherCRUD(t *testing.T) {
+	c := getTestClient(t)
+	uniqueName := fmt.Sprintf("tf-test-voucher-%d", time.Now().UnixMilli())
+
+	// CREATE
+	created, err := c.Create("vouchers", map[string]interface{}{
+		"template_name":    uniqueName,
+		"voucher_quantity": 1,
+		"voucher_length":   8,
+	})
+	if err != nil {
+		t.Fatalf("create voucher: %v", err)
+	}
+	id, ok := created["id"].(string)
+	if !ok || id == "" {
+		t.Fatalf("expected non-empty id, got: %v", created["id"])
+	}
+	t.Logf("Created voucher: %s (id=%s)", uniqueName, id)
+
+	// READ
+	fetched, err := c.Read("vouchers", id)
+	if err != nil {
+		t.Fatalf("read voucher: %v", err)
+	}
+	if fmt.Sprintf("%v", fetched["template_name"]) != uniqueName {
+		t.Errorf("expected template_name=%q, got %v", uniqueName, fetched["template_name"])
+	}
+
+	// UPDATE
+	updatedName := uniqueName + "-updated"
+	updated, err := c.Update("vouchers", id, map[string]interface{}{
+		"template_name": updatedName,
+	})
+	if err != nil {
+		t.Fatalf("update voucher: %v", err)
+	}
+	if fmt.Sprintf("%v", updated["template_name"]) != updatedName {
+		t.Errorf("expected updated template_name=%q, got %v", updatedName, updated["template_name"])
+	}
+
+	// DELETE
+	err = c.Delete("vouchers", id)
+	if err != nil {
+		t.Fatalf("delete voucher: %v", err)
+	}
+
+	// Verify deleted
+	_, err = c.Read("vouchers", id)
+	if !IsNotFound(err) {
+		t.Errorf("expected NotFoundError after delete, got: %v", err)
+	}
+	t.Logf("Voucher CRUD lifecycle complete")
 }
 
 func TestIntegration_NetworkList(t *testing.T) {

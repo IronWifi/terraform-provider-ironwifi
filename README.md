@@ -1,5 +1,7 @@
 # Terraform Provider for IronWiFi
 
+[![Terraform Registry](https://img.shields.io/badge/Terraform-Registry-blueviolet)](https://registry.terraform.io/providers/IronWifi/ironwifi/latest)
+
 Manage IronWiFi cloud RADIUS, captive portals, and network access infrastructure as code.
 
 ## Quick Start
@@ -8,7 +10,7 @@ Manage IronWiFi cloud RADIUS, captive portals, and network access infrastructure
 terraform {
   required_providers {
     ironwifi = {
-      source  = "ironwifi/ironwifi"
+      source  = "IronWifi/ironwifi"
       version = "~> 0.1"
     }
   }
@@ -121,7 +123,7 @@ export IRONWIFI_COMPANY_ID="your-company-id"
 
 ### Prerequisites
 
-- Go 1.25+
+- Go 1.22+
 - Terraform 1.0+
 
 ### Build
@@ -136,7 +138,7 @@ make build
 make install
 ```
 
-This installs to `~/.terraform.d/plugins/registry.terraform.io/ironwifi/ironwifi/0.1.0/darwin_arm64/`.
+This installs to `~/.terraform.d/plugins/registry.terraform.io/ironwifi/ironwifi/0.1.0/${OS}_${ARCH}/` (auto-detected from your system).
 
 ### Run tests
 

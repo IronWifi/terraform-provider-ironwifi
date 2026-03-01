@@ -1,6 +1,8 @@
 BINARY=terraform-provider-ironwifi
 VERSION?=0.1.0
-OS_ARCH?=darwin_arm64
+GOOS?=$(shell go env GOOS)
+GOARCH?=$(shell go env GOARCH)
+OS_ARCH=$(GOOS)_$(GOARCH)
 HOSTNAME=registry.terraform.io
 NAMESPACE=ironwifi
 NAME=ironwifi
