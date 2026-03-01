@@ -359,14 +359,13 @@ func TestIntegration_PolicyCRUD(t *testing.T) {
 	// DELETE
 	err = c.Delete("policies", id)
 	if err != nil {
-		// Known issue: policy delete may return 500 on some API versions
-		t.Logf("delete policy returned error (non-fatal): %v", err)
-	} else {
-		// Verify deleted
-		_, err = c.Read("policies", id)
-		if !IsNotFound(err) {
-			t.Errorf("expected NotFoundError after delete, got: %v", err)
-		}
+		t.Fatalf("delete policy: %v", err)
+	}
+
+	// Verify deleted
+	_, err = c.Read("policies", id)
+	if !IsNotFound(err) {
+		t.Errorf("expected NotFoundError after delete, got: %v", err)
 	}
 	t.Logf("Policy CRUD lifecycle complete")
 }
