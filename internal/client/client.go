@@ -13,14 +13,14 @@ import (
 
 // Config holds the configuration for the IronWiFi API client.
 type Config struct {
-	APIEndpoint string
-	APIToken    string
-	Username    string
-	Password    string
-	ClientID    string
+	APIEndpoint  string
+	APIToken     string
+	Username     string
+	Password     string
+	ClientID     string
 	ClientSecret string
-	CompanyID   string
-	UserAgent   string
+	CompanyID    string
+	UserAgent    string
 }
 
 // Client is the IronWiFi API client.

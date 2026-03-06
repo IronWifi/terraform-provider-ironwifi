@@ -20,8 +20,8 @@ type NetworksDataSource struct {
 
 // NetworksDataSourceModel is the schema model for the networks data source.
 type NetworksDataSourceModel struct {
-	NameFilter types.String        `tfsdk:"name_filter"`
-	Items      []NetworkItemModel  `tfsdk:"items"`
+	NameFilter types.String       `tfsdk:"name_filter"`
+	Items      []NetworkItemModel `tfsdk:"items"`
 }
 
 // NetworkItemModel represents a single network in the data source output.

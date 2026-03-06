@@ -24,16 +24,16 @@ type VoucherResource struct {
 }
 
 type VoucherResourceModel struct {
-	ID               types.String `tfsdk:"id"`
-	TemplateName     types.String `tfsdk:"template_name"`
-	VoucherFormat    types.String `tfsdk:"voucher_format"`
-	VoucherLength    types.Int64  `tfsdk:"voucher_length"`
-	VoucherQuantity  types.Int64  `tfsdk:"voucher_quantity"`
-	GroupID          types.String `tfsdk:"group_id"`
-	OrgunitID        types.String `tfsdk:"orgunit_id"`
+	ID                types.String `tfsdk:"id"`
+	TemplateName      types.String `tfsdk:"template_name"`
+	VoucherFormat     types.String `tfsdk:"voucher_format"`
+	VoucherLength     types.Int64  `tfsdk:"voucher_length"`
+	VoucherQuantity   types.Int64  `tfsdk:"voucher_quantity"`
+	GroupID           types.String `tfsdk:"group_id"`
+	OrgunitID         types.String `tfsdk:"orgunit_id"`
 	VoucherDeleteDate types.String `tfsdk:"voucher_deletedate"`
-	VoucherDevices   types.Int64  `tfsdk:"voucher_devices"`
-	VoucherDuration  types.String `tfsdk:"voucher_duration"`
+	VoucherDevices    types.Int64  `tfsdk:"voucher_devices"`
+	VoucherDuration   types.String `tfsdk:"voucher_duration"`
 }
 
 func NewVoucherResource() resource.Resource {

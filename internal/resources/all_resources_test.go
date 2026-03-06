@@ -275,15 +275,15 @@ func TestMapConnectorResponse_PasswordNotReturned(t *testing.T) {
 func TestMapVoucherResponse(t *testing.T) {
 	data := map[string]interface{}{
 		"id":                 "v-1",
-		"template_name":     "GuestPass",
-		"voucher_format":    "alphanumeric",
-		"voucher_length":    float64(8),
-		"voucher_quantity":  float64(100),
-		"group_id":          "grp-1",
-		"orgunitid":         "ou-1",
+		"template_name":      "GuestPass",
+		"voucher_format":     "alphanumeric",
+		"voucher_length":     float64(8),
+		"voucher_quantity":   float64(100),
+		"group_id":           "grp-1",
+		"orgunitid":          "ou-1",
 		"voucher_deletedate": "2025-12-31",
-		"voucher_devices":   float64(3),
-		"voucher_duration":  "24h",
+		"voucher_devices":    float64(3),
+		"voucher_duration":   "24h",
 	}
 
 	var model VoucherResourceModel
