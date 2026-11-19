@@ -5,6 +5,6 @@ resource "ironwifi_authentication_provider" "ldap" {
   configuration = jsonencode({
     basedn     = "dc=example,dc=com"
     bind       = "cn=admin,dc=example,dc=com"
-    dbpassword = "ldap-password"
+    dbpassword = var.ldap_password
   })
 }

@@ -22,7 +22,7 @@ resource "ironwifi_authentication_provider" "ldap" {
 - `captive_portal_id` - (Optional) Associated captive portal ID.
 - `group_id` - (Optional) Associated group ID.
 - `status` - (Optional) Provider status. Defaults to `enabled`.
-- `configuration` - (Optional) JSON string with type-specific configuration.
+- `configuration` - (Optional, Sensitive) JSON string with type-specific configuration. May contain bind passwords and client secrets, so Terraform redacts it in plan and apply output.
 
 ## Attribute Reference
 

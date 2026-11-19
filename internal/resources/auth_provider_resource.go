@@ -79,9 +79,10 @@ func (r *AuthProviderResource) Schema(_ context.Context, _ resource.SchemaReques
 				Default:     stringdefault.StaticString("enabled"),
 			},
 			"configuration": schema.StringAttribute{
-				Description: "JSON string with type-specific configuration.",
+				Description: "JSON string with type-specific configuration. May contain bind passwords and client secrets.",
 				Optional:    true,
 				Computed:    true,
+				Sensitive:   true,
 				Default:     stringdefault.StaticString(""),
 			},
 		},
