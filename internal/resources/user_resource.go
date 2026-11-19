@@ -64,7 +64,7 @@ func (r *UserResource) Schema(_ context.Context, _ resource.SchemaRequest, resp 
 				Required:    true,
 			},
 			"password": schema.StringAttribute{
-				Description: "User password. Only sent on create.",
+				Description: "User password. Write-only; sent on create and update, not returned by the API.",
 				Optional:    true,
 				Sensitive:   true,
 			},
@@ -223,6 +223,7 @@ func (r *UserResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	body := map[string]interface{}{
 		"username": plan.Username.ValueString(),
 	}
+	setIfNotNull(body, "password", plan.Password)
 	setIfNotNull(body, "email", plan.Email)
 	setIfNotNull(body, "firstname", plan.Firstname)
 	setIfNotNull(body, "lastname", plan.Lastname)
